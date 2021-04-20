@@ -1,87 +1,69 @@
 package ru.windcorp.progressia.client.graphics.gui;
 
-import java.util.function.Consumer;
-
-import org.lwjgl.glfw.GLFW;
-
+import java.util.function.BiConsumer;
 import glm.mat._4.Mat4;
-import glm.vec._2.i.Vec2i;
 import ru.windcorp.progressia.client.graphics.Colors;
 import ru.windcorp.progressia.client.graphics.flat.RenderTarget;
-import ru.windcorp.progressia.client.graphics.input.KeyEvent;
-import ru.windcorp.progressia.client.graphics.input.bus.InputListener;
 
-public class RadioButton extends Interactable {
+public class RadioButton extends BasicButton {
 	private RadioManager manager;
 	private boolean isSelected;
 
-	public RadioButton(String name, Label textLabel, Consumer<RadioButton> onSelect, RadioManager myManager)
-	{
-		super(name, textLabel);
-		setPreferredSize(textLabel.getPreferredSize().x+23,textLabel.getPreferredSize().y);
-		manager = myManager;
-		manager.addOption(this);
-		
-		addListener((Class<KeyEvent>) KeyEvent.class, (InputListener<KeyEvent>) e -> {if ((e.isLeftMouseButton() && containsCursor()) || (e.getKey()==GLFW.GLFW_KEY_ENTER && isFocused()) )
-    	{
-    		isClicked = e.isPress();
-    		if (!isDisabled() && !isClicked)
-    		{
-    			onSelect.accept(this);
-    			manager.selectSelf(this);
-    		}
-    		requestReassembly();
-    		return true;
-    	}
-	  	return false;});
+	public RadioButton(String name, Label textLabel, BiConsumer<RadioButton,Boolean> onSelect, RadioManager manager, boolean addDefault) {
+		super(name, textLabel, onSelect);
+		setPreferredSize(getText().getPreferredSize().x + 23, getText().getPreferredSize().y);
+		this.manager = manager;
+		this.manager.addOption(this);
+		if (addDefault)
+		{
+			addDefaultListener();
+		}
 	}
-	
-	public boolean isSelected()
-	{
+
+	public boolean isSelected() {
 		return isSelected;
 	}
-	
-	public void setSelected(boolean selected)
-	{
+
+	void setSelected(boolean selected) {
 		isSelected = selected;
 	}
-	
+
 	protected void assembleSelf(RenderTarget target) {
-		if (isDisabled())
-		{
-			target.fill(getX()+getWidth()-getHeight(), getY(), getHeight(), getHeight(), 0xFFE5E5E5);
+		if (isDisabled()) {
+			target.fill(getX() + getWidth() - getHeight(), getY(), getHeight(), getHeight(), Colors.DISABLED_GRAY);
+		} else if (isClicked() || isHovered() || isFocused()) {
+			target.fill(getX() + getWidth() - getHeight(), getY(), getHeight(), getHeight(), Colors.BLUE);
+		} else {
+			target.fill(getX() + getWidth() - getHeight(), getY(), getHeight(), getHeight(), Colors.LIGHT_GRAY);
 		}
-		else if (isClicked() || isHovered() || isFocused())
-		{
-			target.fill(getX()+getWidth()-getHeight(), getY(), getHeight(), getHeight(), 0xFF37A2E6);
+		// Inside area
+		if (!isClicked() && isHovered() && !isDisabled()) {
+			target.fill(getX() + getWidth() - getHeight() + 2, getY() + 2, getHeight() - 4, getHeight() - 4,
+					Colors.HOVER_BLUE);
+		} else if (!isClicked() || isDisabled()) {
+			target.fill(getX() + getWidth() - getHeight() + 2, getY() + 2, getHeight() - 4, getHeight() - 4,
+					Colors.WHITE);
 		}
-		else
-		{
-			target.fill(getX()+getWidth()-getHeight(), getY(), getHeight(), getHeight(), 0xFFCBCBD0);
-		}
-		//Inside area
-		if (!isClicked() && isHovered() && !isDisabled())
-		{
-			target.fill(getX()+getWidth()-getHeight()+2, getY()+2, getHeight()-4, getHeight()-4, 0xFFC3E4F7);
-		}
-		else if (!isClicked() || isDisabled())
-		{
-			target.fill(getX()+getWidth()-getHeight()+2, getY()+2, getHeight()-4, getHeight()-4, Colors.WHITE);
-		}
-		if (isSelected())
-		{
-			if (!isDisabled())
-			{
-				target.fill(getX()+getWidth()-getHeight()+4, getY()+4, getHeight()-8, getHeight()-8, 0xFF37A2E6);
-			}
-			else
-			{
-				target.fill(getX()+getWidth()-getHeight()+4, getY()+4, getHeight()-8, getHeight()-8, 0xFFC3E4F7);
+		if (isSelected()) {
+			if (!isDisabled()) {
+				target.fill(getX() + getWidth() - getHeight() + 4, getY() + 4, getHeight() - 8, getHeight() - 8,
+						Colors.BLUE);
+			} else {
+				target.fill(getX() + getWidth() - getHeight() + 4, getY() + 4, getHeight() - 8, getHeight() - 8,
+						Colors.DISABLED_BLUE);
 			}
 		}
-		
-		target.pushTransform(new Mat4().identity().translate( getX(), getY(), 0));
-		label.assembleSelf(target);
+
+		target.pushTransform(new Mat4().identity().translate(getX(), getY(), 0));
+		getText().assembleSelf(target);
 		target.popTransform();
+	}
+
+	@Override
+	public void trigger(boolean isPress) {
+		if (!isPress)
+		{
+			manager.selectSelf(this);
+		}
 	}
 }

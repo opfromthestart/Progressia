@@ -36,7 +36,7 @@ public class LayerAbout extends GUILayer {
 		Panel panel = new Panel("ControlDisplays", new LayoutVertical(5));
 
 		Font font = new Font().withColor(Colors.WHITE).deriveOutlined().withAlign(Typeface.ALIGN_RIGHT);
-		Font aboutFont = font.withColor(0xFF37A3E6).deriveBold();
+		Font aboutFont = font.withColor(Colors.BLUE).deriveBold();
 
 		panel.addChild(
 			new Label(

@@ -82,6 +82,10 @@ public class Label extends Component {
 	public Font getFont() {
 		return font;
 	}
+	
+	public void setFont(Font newFont) {
+		font = newFont;
+	}
 
 	public String getCurrentText() {
 		return currentText;
@@ -89,6 +93,10 @@ public class Label extends Component {
 
 	public Supplier<String> getContentSupplier() {
 		return contents;
+	}
+
+	public void setContentSupplier(Supplier<String> newContents) {
+		contents = newContents;
 	}
 
 	@Override

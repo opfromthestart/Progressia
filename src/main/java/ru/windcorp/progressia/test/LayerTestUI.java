@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
+
 package ru.windcorp.progressia.test;
 
 import org.lwjgl.glfw.GLFW;
@@ -51,7 +51,7 @@ public class LayerTestUI extends AssembledFlatLayer {
 	private static final int BORDER = 5;
 
 	@Override
-	protected void assemble(RenderTarget target) {
+	protected void assemble(RenderTarget target) { // (TODO) Colorify these?
 		final int boxColor = flag ? 0xFFEE8888 : 0xFFEEEE88;
 		final int borderColor = flag ? 0xFFAA4444 : 0xFFAAAA44;
 		final int boxShadowColor = flag ? 0xFF440000 : 0xFF444400;
@@ -75,17 +75,10 @@ public class LayerTestUI extends AssembledFlatLayer {
 		target.drawTexture(texShadow, -texShadow, texSize, texSize, Colors.BLACK, compassBg);
 		target.drawTexture(0, 0, texSize, texSize, compassBg);
 
-		target.addCustomRenderer(
-			new LambdaModel(
-				LambdaModel.lambdaBuilder()
-					.addDynamicPart(
-						target.createRectagle(0, 0, texSize, texSize, Colors.WHITE, compassFg),
-						mat -> mat.translate(texSize / 2, texSize / 2, 0)
-							.rotateZ(getCompassRotation())
-							.translate(-texSize / 2, -texSize / 2, 0)
-					)
-			)
-		);
+		target.addCustomRenderer(new LambdaModel(LambdaModel.lambdaBuilder().addDynamicPart(
+				target.createRectagle(0, 0, texSize, texSize, Colors.WHITE, compassFg),
+				mat -> mat.translate(texSize / 2, texSize / 2, 0).rotateZ(getCompassRotation()).translate(-texSize / 2,
+						-texSize / 2, 0))));
 		target.popTransform();
 
 		drawCross(target);
@@ -110,37 +103,15 @@ public class LayerTestUI extends AssembledFlatLayer {
 		final Vec4 borderColor = Colors.BLACK;
 		final Vec4 fillColor = Colors.WHITE;
 
-		target.fill(
-			cx - length - thickness / 2,
-			cy - thickness / 2,
-			2 * length + thickness,
-			thickness,
-			borderColor
-		);
+		target.fill(cx - length - thickness / 2, cy - thickness / 2, 2 * length + thickness, thickness, borderColor);
 
-		target.fill(
-			cx - thickness / 2,
-			cy - length - thickness / 2,
-			thickness,
-			2 * length + thickness,
-			borderColor
-		);
+		target.fill(cx - thickness / 2, cy - length - thickness / 2, thickness, 2 * length + thickness, borderColor);
 
-		target.fill(
-			cx - length - thickness / 2 + borderSize,
-			cy - thickness / 2 + borderSize,
-			2 * length + thickness - 2 * borderSize,
-			thickness - 2 * borderSize,
-			fillColor
-		);
+		target.fill(cx - length - thickness / 2 + borderSize, cy - thickness / 2 + borderSize,
+				2 * length + thickness - 2 * borderSize, thickness - 2 * borderSize, fillColor);
 
-		target.fill(
-			cx - thickness / 2 + borderSize,
-			cy - length - thickness / 2 + borderSize,
-			thickness - 2 * borderSize,
-			2 * length + thickness - 2 * borderSize,
-			fillColor
-		);
+		target.fill(cx - thickness / 2 + borderSize, cy - length - thickness / 2 + borderSize,
+				thickness - 2 * borderSize, 2 * length + thickness - 2 * borderSize, fillColor);
 	}
 
 	@Override

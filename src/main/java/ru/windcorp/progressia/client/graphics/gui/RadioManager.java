@@ -7,26 +7,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class RadioManager {
 	private List<RadioButton> options;
 	private int selectedOption;
-	
-	public RadioManager()
-	{
+
+	public RadioManager() {
 		options = Collections.synchronizedList(new CopyOnWriteArrayList<>());
 	}
-	
-	public void addOption(RadioButton option)
-	{
+
+	public void addOption(RadioButton option) {
 		options.add(option);
 	}
-	
-	public int getSelected()
-	{
+
+	public int getSelected() {
 		return selectedOption;
 	}
-	
-	public void selectSelf(RadioButton option)
-	{
-		if (!options.contains(option))
-		{
+
+	public void selectSelf(RadioButton option) {
+		if (!options.contains(option)) {
 			return;
 		}
 		options.get(selectedOption).setSelected(false);
