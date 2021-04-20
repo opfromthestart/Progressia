@@ -45,9 +45,8 @@ public abstract class BasicButton extends Component {
 		});
 
 		addListener((Class<KeyEvent>) KeyEvent.class, (InputListener<KeyEvent>) e -> {
-			if ((e.isLeftMouseButton() && containsCursor()) || (e.getKey() == GLFW.GLFW_KEY_ENTER && isFocused())) {
-				isClicked = e.isPress();
-				dispatchEvent(new ButtonEvent(this, isClicked));
+			if ((e.isLeftMouseButton()) || (e.getKey() == GLFW.GLFW_KEY_ENTER && isFocused())) {
+				dispatchEvent(new ButtonEvent(this, e.isPress()));
 				return true;
 			}
 			return false;
@@ -107,6 +106,9 @@ public abstract class BasicButton extends Component {
 	public void setDisabled(boolean isDisabled) {
 		this.isDisabled = isDisabled;
 		setFocusable(!isDisabled);
+		if (isFocused() && isDisabled) {
+			focusNext();
+		}
 	}
 
 	public boolean isDisabled() {

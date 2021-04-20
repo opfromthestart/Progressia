@@ -63,7 +63,11 @@ public class LayerTestGUI extends GUILayer {
 
 		Button disableButton = new Button("TestButton",
 				new Label("TestButtonLabel", new Font().withColor(Colors.BLACK), "I'm in TestGUI"), (b, p) -> {
-					b.setDisabled(!b.isDisabled());
+					if (!b.isDisabled()) {
+						b.setDisabled(!b.isDisabled());
+						b.getText().setContentSupplier(() -> !b.isDisabled() ? "Active" : "Disabled");
+						b.getText().update();
+					}
 				}, true);
 
 		panel.addChild(disableButton.takeFocus());
@@ -71,20 +75,26 @@ public class LayerTestGUI extends GUILayer {
 		panel.addChild(new Button("TestButton2",
 				new Label("TestButtonLabel2", new Font().withColor(Colors.BLACK), "I enable the above button"),
 				(b, p) -> {
-					disableButton.setDisabled(false);
+					if (!p) {
+						disableButton.setDisabled(false);
+						disableButton.getText().setContentSupplier(() -> "Reactivated");
+						disableButton.getText().update();
+					}
 				}, true));
 
-		panel.addChild(new Checkbox("Checkbox1", new Label("CheckboxLabel", font, "Reset"), (c,b) -> {
-			c.getText().setContentSupplier(() -> c.isActive() ? "Set" : "Reset");
-			c.getText().update();
+		panel.addChild(new Checkbox("Checkbox1", new Label("CheckboxLabel", font, "Reset"), (c, b) -> {
+			if (!b) {
+				c.getText().setContentSupplier(() -> !c.isActive() ? "Set" : "Reset");
+				c.getText().update();
+			}
 		}, true));
 
 		RadioManager manager = new RadioManager();
 
-		panel.addChild(new RadioButton("Radio1,1", new Label("RadioLabel1,1", font, "Option 1"), (rb,p) -> {
+		panel.addChild(new RadioButton("Radio1,1", new Label("RadioLabel1,1", font, "Option 1"), (rb, p) -> {
 		}, manager, true));
 
-		panel.addChild(new RadioButton("Radio1,2", new Label("RadioLabel1,2", font, "Option 2"), (rb,p) -> {
+		panel.addChild(new RadioButton("Radio1,2", new Label("RadioLabel1,2", font, "Option 2"), (rb, p) -> {
 		}, manager, true));
 
 		panel.addChild(

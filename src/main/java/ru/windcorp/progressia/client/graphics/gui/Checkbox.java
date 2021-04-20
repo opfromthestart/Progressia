@@ -30,7 +30,7 @@ public class Checkbox extends BasicButton {
 
 	@Override
 	public void trigger(boolean isPress) {
-		if (isPress) {
+		if (!isPress) {
 			isActive = !isActive;
 		}
 	}
