@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
+
 package ru.windcorp.progressia.test;
 
 import glm.Glm;
@@ -119,12 +119,8 @@ public class TestPlayerControls {
 		desiredVelocity.z = movementUp;
 		desiredVelocity.mul(speed);
 
-		Vec3 change = new Vec3()
-			.set(desiredVelocity)
-			.sub(player.getVelocity())
-			.mul((float) Math.exp(-authority * GraphicsInterface.getFrameLength()))
-			.negate()
-			.add(desiredVelocity);
+		Vec3 change = new Vec3().set(desiredVelocity).sub(player.getVelocity())
+				.mul((float) Math.exp(-authority * GraphicsInterface.getFrameLength())).negate().add(desiredVelocity);
 
 		if (!isFlying) {
 			change.z = player.getVelocity().z;
@@ -134,7 +130,7 @@ public class TestPlayerControls {
 
 		// THIS IS TERRIBLE TEST
 		EntityData serverEntity = ServerState.getInstance().getWorld().getData()
-			.getEntity(TestContent.PLAYER_ENTITY_ID);
+				.getEntity(TestContent.PLAYER_ENTITY_ID);
 		if (serverEntity != null) {
 			serverEntity.setPosition(player.getPosition());
 		}
@@ -279,7 +275,10 @@ public class TestPlayerControls {
 	}
 
 	private void jump() {
-		if (ClientState.getInstance() == null || !ClientState.getInstance().isReady() || (Math.abs(getEntity().getVelocity().z)==0)) {//TODO actual isOnGround method
+		if (ClientState.getInstance() == null || !ClientState.getInstance().isReady()
+				|| (Math.abs(getEntity().getVelocity().z) != 0)) {// TODO actual
+																	// isOnGround
+																	// method
 			return;
 		}
 
@@ -356,12 +355,8 @@ public class TestPlayerControls {
 
 		EntityData player = getEntity();
 
-		normalizeAngles(
-			player.getDirection().add(
-				(float) (event.getChangeX() * yawScale),
-				(float) (event.getChangeY() * pitchScale)
-			)
-		);
+		normalizeAngles(player.getDirection().add((float) (event.getChangeX() * yawScale),
+				(float) (event.getChangeY() * pitchScale)));
 	}
 
 	private void normalizeAngles(Vec2 dir) {
@@ -369,11 +364,7 @@ public class TestPlayerControls {
 		dir.x = FloatMathUtil.normalizeAngle(dir.x);
 
 		// Clamp pitch
-		dir.y = Glm.clamp(
-			dir.y,
-			-FloatMathUtil.PI_F / 2,
-			+FloatMathUtil.PI_F / 2
-		);
+		dir.y = Glm.clamp(dir.y, -FloatMathUtil.PI_F / 2, +FloatMathUtil.PI_F / 2);
 	}
 
 	private void onWheelScroll(WheelScrollEvent event) {
