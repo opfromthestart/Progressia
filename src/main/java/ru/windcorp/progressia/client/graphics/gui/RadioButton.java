@@ -9,13 +9,13 @@ public class RadioButton extends BasicButton {
 	private RadioManager manager;
 	private boolean isSelected;
 
-	public RadioButton(String name, Label textLabel, BiConsumer<RadioButton,Boolean> onSelect, RadioManager manager, boolean addDefault) {
+	public RadioButton(String name, Label textLabel, BiConsumer<RadioButton, Boolean> onSelect, RadioManager manager,
+			boolean addDefault) {
 		super(name, textLabel, onSelect);
 		setPreferredSize(getText().getPreferredSize().x + 23, getText().getPreferredSize().y);
 		this.manager = manager;
 		this.manager.addOption(this);
-		if (addDefault)
-		{
+		if (addDefault) {
 			addDefaultListener();
 		}
 	}
@@ -61,8 +61,7 @@ public class RadioButton extends BasicButton {
 
 	@Override
 	public void trigger(boolean isPress) {
-		if (!isPress)
-		{
+		if (!isPress) {
 			manager.selectSelf(this);
 		}
 	}

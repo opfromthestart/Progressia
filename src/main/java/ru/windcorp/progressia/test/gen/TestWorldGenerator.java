@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
- 
+
 package ru.windcorp.progressia.test.gen;
 
 import java.io.DataInputStream;
@@ -88,12 +88,10 @@ public class TestWorldGenerator extends AbstractWorldGenerator<Boolean> {
 		BlockData stone = BlockDataRegistry.getInstance().get("Test:Stone");
 		BlockData air = BlockDataRegistry.getInstance().get("Test:Air");
 
-		BlockData[] granites = new BlockData[] {
-			BlockDataRegistry.getInstance().get("Test:GraniteGravel"),
-			BlockDataRegistry.getInstance().get("Test:GraniteGravel"),
-			BlockDataRegistry.getInstance().get("Test:GraniteCracked"),
-			BlockDataRegistry.getInstance().get("Test:GraniteMonolith")
-		};
+		BlockData[] granites = new BlockData[] { BlockDataRegistry.getInstance().get("Test:GraniteGravel"),
+				BlockDataRegistry.getInstance().get("Test:GraniteGravel"),
+				BlockDataRegistry.getInstance().get("Test:GraniteCracked"),
+				BlockDataRegistry.getInstance().get("Test:GraniteMonolith") };
 
 		double[][] heightMap = new double[bpc][bpc];
 		double[][] gradMap = new double[bpc][bpc];
@@ -168,7 +166,7 @@ public class TestWorldGenerator extends AbstractWorldGenerator<Boolean> {
 
 		ChunkData chunk = world.getChunk(chunkPos);
 		assert chunk != null : "Something went wrong when populating chunk at (" + chunkPos.x + "; " + chunkPos.y + "; "
-			+ chunkPos.z + ")";
+				+ chunkPos.z + ")";
 
 		BlockData air = BlockDataRegistry.getInstance().get("Test:Air");
 		BlockData dirt = BlockDataRegistry.getInstance().get("Test:Dirt");
@@ -203,15 +201,8 @@ public class TestWorldGenerator extends AbstractWorldGenerator<Boolean> {
 				int xic = Coordinates.convertInWorldToInChunk(biw.x);
 				int yic = Coordinates.convertInWorldToInChunk(biw.y);
 
-				addTiles(
-					chunk,
-					biw,
-					world,
-					random,
-					world.getBlock(biw) == dirt,
-					heightMap[xic][yic],
-					gradMap[xic][yic]
-				);
+				addTiles(chunk, biw, world, random, world.getBlock(biw) == dirt, heightMap[xic][yic],
+						gradMap[xic][yic]);
 
 			}
 		}
@@ -219,15 +210,8 @@ public class TestWorldGenerator extends AbstractWorldGenerator<Boolean> {
 		chunk.setGenerationHint(true);
 	}
 
-	private void addTiles(
-		ChunkData chunk,
-		Vec3i biw,
-		WorldData world,
-		Random random,
-		boolean isDirt,
-		double height,
-		double grad
-	) {
+	private void addTiles(ChunkData chunk, Vec3i biw, WorldData world, Random random, boolean isDirt, double height,
+			double grad) {
 		if (isDirt)
 			addGrass(chunk, biw, world, random);
 		addDecor(chunk, biw, world, random, isDirt);
@@ -257,40 +241,26 @@ public class TestWorldGenerator extends AbstractWorldGenerator<Boolean> {
 	private void addDecor(ChunkData chunk, Vec3i biw, WorldData world, Random random, boolean isDirt) {
 		if (isDirt) {
 			if (random.nextInt(8) == 0) {
-				world.getTiles(biw, BlockFace.TOP).addFarthest(
-					TileDataRegistry.getInstance().get("Test:Sand")
-				);
+				world.getTiles(biw, BlockFace.TOP).addFarthest(TileDataRegistry.getInstance().get("Test:Sand"));
 			}
 
 			if (random.nextInt(8) == 0) {
-				world.getTiles(biw, BlockFace.TOP).addFarthest(
-					TileDataRegistry.getInstance().get("Test:Stones")
-				);
+				world.getTiles(biw, BlockFace.TOP).addFarthest(TileDataRegistry.getInstance().get("Test:Stones"));
 			}
 
 			if (random.nextInt(8) == 0) {
-				world.getTiles(biw, BlockFace.TOP).addFarthest(
-					TileDataRegistry.getInstance().get("Test:YellowFlowers")
-				);
+				world.getTiles(biw, BlockFace.TOP)
+						.addFarthest(TileDataRegistry.getInstance().get("Test:YellowFlowers"));
 			}
 		} else {
 			if (random.nextInt(2) == 0) {
-				world.getTiles(biw, BlockFace.TOP).addFarthest(
-					TileDataRegistry.getInstance().get("Test:Stones")
-				);
+				world.getTiles(biw, BlockFace.TOP).addFarthest(TileDataRegistry.getInstance().get("Test:Stones"));
 			}
 		}
 	}
 
-	private void addSnow(
-		ChunkData chunk,
-		Vec3i biw,
-		WorldData world,
-		Random random,
-		boolean isDirt,
-		double height,
-		double grad
-	) {
+	private void addSnow(ChunkData chunk, Vec3i biw, WorldData world, Random random, boolean isDirt, double height,
+			double grad) {
 		if (height < 1500)
 			return;
 

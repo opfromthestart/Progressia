@@ -11,24 +11,21 @@ public class Button extends BasicButton {
 	public Button(String name, Label textLabel, BiConsumer<Button, Boolean> onClick, boolean addDefault) {
 		super(name, textLabel, onClick);
 		setPreferredSize(107, 34);
-		if (addDefault)
-		{
+		if (addDefault) {
 			addDefaultListener();
 		}
 	}
-	
-	public Button(String name, Label textLabel, BiConsumer<Button, Boolean> onClick)
-	{
+
+	public Button(String name, Label textLabel, BiConsumer<Button, Boolean> onClick) {
 		this(name, textLabel, onClick, false);
 	}
 
 	public Button(String name, Label textLabel, boolean addDefault) {
-		this(name, textLabel, (b,p) -> {
-		},addDefault);
+		this(name, textLabel, (b, p) -> {
+		}, addDefault);
 	}
-	
-	public Button(String name, Label textLabel)
-	{
+
+	public Button(String name, Label textLabel) {
 		this(name, textLabel, false);
 	}
 

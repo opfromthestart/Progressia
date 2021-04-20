@@ -11,16 +11,15 @@ public class Checkbox extends BasicButton {
 
 	private boolean isActive;
 
-	public <T extends InputEvent> Checkbox(String name, Label textLabel, BiConsumer<Checkbox,Boolean> onChange, boolean addDefault) {
+	public <T extends InputEvent> Checkbox(String name, Label textLabel, BiConsumer<Checkbox, Boolean> onChange,
+			boolean addDefault) {
 		super(name, textLabel, onChange, new LayoutAlign(0, .5, 1));
-		if (addDefault)
-		{
+		if (addDefault) {
 			addDefaultListener();
 		}
 	}
-	
-	public <T extends InputEvent> Checkbox(String name, Label textLabel, BiConsumer<Checkbox,Boolean> onChange)
-	{
+
+	public <T extends InputEvent> Checkbox(String name, Label textLabel, BiConsumer<Checkbox, Boolean> onChange) {
 		this(name, textLabel, onChange, false);
 	}
 

@@ -276,7 +276,8 @@ public class TestPlayerControls {
 
 	private void jump() {
 		if (ClientState.getInstance() == null || !ClientState.getInstance().isReady()
-				|| (Math.abs(getEntity().getVelocity().z) > 0.1)) {// TODO actual
+				|| (Math.abs(getEntity().getVelocity().z) > 0.1)) {// TODO
+																	// actual
 																	// isOnGround
 																	// method
 			return;
